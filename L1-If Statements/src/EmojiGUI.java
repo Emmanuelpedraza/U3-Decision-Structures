@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 public class EmojiGUI {
 
     //ADD BOOLEAN FLAG
+    boolean smiley = true;
 
     JPanel panel;
 
@@ -52,10 +53,16 @@ public class EmojiGUI {
             //If Statement to switch between Smile and Frown
 
             //Smile
+            if(smiley){  //if(smiley == ture)
             g2.drawArc(100, 375, 175, 100, 180, 180);
-
+        }
             //Frown
-            g2.drawArc(100, 400, 175, 100, 180, -180);
+            if(!smiley){
+                g2.drawArc(100, 400, 175, 100, 180, -180);
+            }
+
+
+
 
         }
     }
@@ -67,6 +74,7 @@ public class EmojiGUI {
 
             //SET THE FLAG SMILE = TRUE
 
+            smiley = true;
             panel.repaint();
         }
     }
@@ -78,6 +86,7 @@ public class EmojiGUI {
 
             //SET THE FLAG  SMILE = FALSE
 
+            smiley = false;
             panel.repaint();
         }
     }
