@@ -3,14 +3,71 @@ import java.util.Random;
 
 public class QuizGame {
 
-   static  int userAnswer, correctAnswer;
+   static double userAnswer, correctAnswer;
   static  String displayProblem = "";
+
+  JPanel panel;
+  JButton createProblem, checkAnswer;
+  JLabel showProblem, resultLabel;
+  JTextField answerInput;
+  JRadioButton addition, subtraction, multiplication, division;
+  ButtonGroup ratios = new ButtonGroup();
 
     public static void main(String[] args) {
 
-        createProblem();
+        new QuizGame();
+        int choice = Integer.parseInt(JOptionPane.showInputDialog("choose Addition(1), Subtraction(2), Multiplication(3), Division(4)"));
+
+        createProblem(choice);
         getUserAnswer();
         checkAnswer();
+
+
+    }
+    public QuizGame(){
+        JFrame frame = new JFrame("Quiz Game");
+        frame.setSize(300,400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+
+        panel = new JPanel();
+
+        addition = new JRadioButton("Addition");
+        subtraction = new JRadioButton("Subtraction");
+        multiplication = new JRadioButton("Multiplication");
+        division = new JRadioButton("Division");
+
+        createProblem = new JButton("Make a problem");
+        showProblem = new JLabel("PLACE HOLDER");
+        answerInput = new JTextField(10);
+        checkAnswer = new JButton("Check Answer");
+        resultLabel = new JLabel("ANSWER RESULTS");
+
+
+
+
+        addition.setBounds(100, 25, 100, 25);
+        subtraction.setBounds(100, 50, 100, 25);
+        multiplication.setBounds(100, 75, 100, 25);
+        division.setBounds(100, 100, 100, 25);
+
+        ratios.add(addition);
+        ratios.add(subtraction);
+        ratios.add(multiplication);
+        ratios.add(division);
+
+        panel.setLayout(null);
+        panel.add(addition);
+        panel.add(subtraction);
+        panel.add(multiplication);
+        panel.add(division);
+
+
+        frame.add(panel);
+        frame.setVisible(true);
+
+
 
 
     }
@@ -25,9 +82,8 @@ public class QuizGame {
         userAnswer = input(displayProblem);
     }
 
-    public static void createProblem(){
+    public static void createProblem(int choice){
 
-            int choice = input("Choose: Addition(1), Subtraction(2), Multiplication(3), division(4)");
 
             if (choice >= 1) {
                 if (choice < 5) {
@@ -85,7 +141,10 @@ public class QuizGame {
         int number1 = random();
         int number2 = random();
 
-        correctAnswer = number1 / number2;
+        correctAnswer = (number1/number2);
+
+        correctAnswer = Math.round(correctAnswer * 100.00)/100.00;
+
         displayProblem = number1 + " / " + number2;
     }
 
@@ -96,7 +155,8 @@ public class QuizGame {
         return random.nextInt(20)+1;
 
     }
-    public static int input(String message){
-        return Integer.parseInt(JOptionPane.showInputDialog(message));
+
+    public static double input(String message){
+        return Double.parseDouble(JOptionPane.showInputDialog(message));
     }
 }
