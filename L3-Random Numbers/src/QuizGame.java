@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class QuizGame {
@@ -6,12 +8,12 @@ public class QuizGame {
    static double userAnswer, correctAnswer;
   static  String displayProblem = "";
 
-  JPanel panel;
-  JButton createProblem, checkAnswer;
-  JLabel showProblem, resultLabel;
-  JTextField answerInput;
-  JRadioButton addition, subtraction, multiplication, division;
-  ButtonGroup ratios = new ButtonGroup();
+ static JPanel panel;
+ static JButton createProblem, checkAnswer;
+ static JLabel showProblem, resultLabel;
+ static JTextField answerInput;
+ static JRadioButton addition, subtraction, multiplication, division;
+static  ButtonGroup ratios = new ButtonGroup();
 
     public static void main(String[] args) {
 
@@ -45,12 +47,21 @@ public class QuizGame {
         resultLabel = new JLabel("ANSWER RESULTS");
 
 
-
-
         addition.setBounds(100, 25, 100, 25);
         subtraction.setBounds(100, 50, 100, 25);
         multiplication.setBounds(100, 75, 100, 25);
         division.setBounds(100, 100, 100, 25);
+
+        createProblem.setBounds(50,125,200,25);
+        showProblem.setBounds(50,150,200,25);
+        answerInput.setBounds(50,175,200,25);
+        checkAnswer.setBounds(50,200,200,25);
+        resultLabel.setBounds(50,225,200,25);
+
+        addition.setSelected(true);
+
+        createProblem.addActionListener(new NewProblemButton());
+        checkAnswer.addActionListener(new CheckProblemListener());
 
         ratios.add(addition);
         ratios.add(subtraction);
@@ -62,24 +73,55 @@ public class QuizGame {
         panel.add(subtraction);
         panel.add(multiplication);
         panel.add(division);
+        panel.add(createProblem);
+        panel.add(showProblem);
+        panel.add(answerInput);
+        panel.add(checkAnswer);
+        panel.add(resultLabel);
 
 
         frame.add(panel);
         frame.setVisible(true);
 
+    }
+    private class NewProblemButton implements ActionListener{
+        public void actionPerformed(ActionEvent actionEvent){
+            if (addition.isSelected()){
+                addProblem();
+            }
+            if (subtraction.isSelected()){
+                subProblem();
+            }
+            if (multiplication.isSelected()){
+                multiProblem();
+            }
+            if (division.isSelected()){
+                divProblem();
+            }
 
+            showProblem.setText(displayProblem);
+            panel.remove(createProblem);
+            panel.updateUI();
+        }
+    }
 
-
+    private class CheckProblemListener implements ActionListener{
+        public void actionPerformed(ActionEvent actionEvent){
+            getUserAnswer();
+            checkAnswer();
+        }
     }
     public static void checkAnswer() {
         if (userAnswer == correctAnswer) {
-            JOptionPane.showMessageDialog(null, "Your are correct");
+            resultLabel.setText("Your are correct");
+            panel.add(createProblem);
+            panel.updateUI();
         } else {
-            JOptionPane.showMessageDialog(null, "Incorrect, please try again");
+           resultLabel.setText("Incorrect, please try again");
         }
     }
     public static void getUserAnswer(){
-        userAnswer = input(displayProblem);
+       userAnswer = Double.parseDouble(answerInput.getText());
     }
 
     public static void createProblem(int choice){
